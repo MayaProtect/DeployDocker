@@ -19,7 +19,7 @@ services:
     container_name: grafana
     restart: always
     ports:
-      - "9002:3000"
+      - "8030:3000"
     volumes:
       - ./data/grafana:/var/lib/grafana
     networks:
@@ -32,7 +32,7 @@ services:
     container_name: prometheus
     restart: always
     ports:
-      - "9003:9090"
+      - "9090:9090"
     volumes:
       - ./data/prometheus:/etc/prometheus
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
@@ -40,7 +40,7 @@ services:
       - mayaprotect
     depends_on:
       - metricsfaker
-      
+
   metricsfaker:
     image: pfontaine/metricsfaker:latest
     container_name: metricsfaker
@@ -48,8 +48,12 @@ services:
     environment:
       - MONGO_HOST=mongo
       - MONGO_PORT=27017
-    ports:
-      - "9001:8000"
+      - MIN_OWNER=5
+      - MAX_OWNER=10
+      - MIN_STATIONS_PER_OWNER=5
+      - MAX_STATIONS_PER_OWNER=10
+      - MIN_HIVES_PER_STATION=4
+      - MAX_HIVES_PER_STATION=20
     networks:
       - mayaprotect
     depends_on:
