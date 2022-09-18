@@ -1,0 +1,1431 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "MayaProtect",
+    "license": {
+      "name": "AGPL"
+    },
+    "description": "This is the API of MayaProtect project\n"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api",
+      "description": "Local Development Server"
+    },
+    {
+      "url": "https://devel.api.mayaprotect.ovh/",
+      "description": "Devel Server"
+    },
+    {
+      "url": "https://api.mayaprotect.ovh/",
+      "description": "Prod Server"
+    }
+  ],
+  "paths": {
+    "/stations": {
+      "get": {
+        "summary": "Get all station",
+        "operationId": "getAllStation",
+        "tags": [
+          "stations"
+        ],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "maximum": 200
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all station",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStations"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      },
+      "post": {
+        "summary": "Register new station",
+        "operationId": "createStation",
+        "tags": [
+          "stations"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/Created"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/stations/{stationId}/hives": {
+      "get": {
+        "summary": "Get station hive",
+        "operationId": "getStationByHive",
+        "tags": [
+          "stations"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "stationId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "maximum": 200
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hives array",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseHives"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/stations/{stationId}": {
+      "get": {
+        "summary": "Get station",
+        "operationId": "getStationById",
+        "tags": [
+          "stations"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "stationId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Station object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStation"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/stations/{stationId}/datas": {
+      "put": {
+        "summary": "Add data to station",
+        "operationId": "postStationData",
+        "tags": [
+          "stations",
+          "datas"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "stationId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStationData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/Created"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get data from station",
+        "operationId": "getStationDatas",
+        "tags": [
+          "stations",
+          "datas"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "stationId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "start_time",
+            "description": "start time, if empty now-1 year",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "end_time",
+            "description": "end time, if empty now",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "resolution",
+            "description": "resolution of data in seconds (between 5s and 3600s)",
+            "schema": {
+              "type": "number",
+              "format": "int",
+              "minimum": 5,
+              "maximum": 3600
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return datas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStationData"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/hives": {
+      "post": {
+        "summary": "Register new hive",
+        "operationId": "createHive",
+        "tags": [
+          "hives"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateHive"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/Created"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all hive",
+        "operationId": "getAllHive",
+        "tags": [
+          "hives"
+        ],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "maximum": 200
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "station",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "owner",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all hive",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseHives"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/hives/{hiveId}": {
+      "get": {
+        "summary": "Get hive",
+        "operationId": "getHiveId",
+        "tags": [
+          "hives"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hiveId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hive object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseHives"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/hives/{hiveId}/events": {
+      "put": {
+        "summary": "Register new event",
+        "operationId": "creationEvent",
+        "tags": [
+          "hives",
+          "events"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "required": true,
+            "name": "hiveId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEvent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/Created"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all events for hive",
+        "operationId": "getAllEvent",
+        "tags": [
+          "hives",
+          "events"
+        ],
+        "parameters": [
+          {
+            "name": "hiveId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "maximum": 200
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "station",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "owner",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseEvents"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/hives/{hiveId}/datas": {
+      "put": {
+        "summary": "Add data to hive",
+        "operationId": "postHiveData",
+        "tags": [
+          "hives",
+          "datas"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hiveId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateHiveData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/Created"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get datas from hive",
+        "operationId": "getHiveDatas",
+        "tags": [
+          "hives",
+          "datas"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hiveId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "start_time",
+            "description": "start time, if empty now-1 year",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "end_time",
+            "description": "end time, if empty now",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "resolution",
+            "description": "resolution of data in seconds (between 5s and 3600s)",
+            "schema": {
+              "type": "number",
+              "format": "int",
+              "minimum": 5,
+              "maximum": 3600
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return datas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseHiveData"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/owners": {
+      "post": {
+        "summary": "Register new owner",
+        "operationId": "createOwner",
+        "tags": [
+          "owners"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOwner"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/Created"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all owner",
+        "operationId": "getAllOwner",
+        "tags": [
+          "owners"
+        ],
+        "parameters": [
+          {
+            "name": "ownerId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "maximum": 200
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseOwners"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/owners/{ownerId}": {
+      "get": {
+        "summary": "Get owner",
+        "operationId": "getOwnerById",
+        "tags": [
+          "owners"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ownerId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owner object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseOwnerLong"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateStation": {
+        "type": "object",
+        "required": [
+          "owner_uuid"
+        ],
+        "properties": {
+          "owner_uuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      },
+      "CreateOwner": {
+        "type": "object",
+        "required": [
+          "firstname",
+          "lastname",
+          "email",
+          "password"
+        ],
+        "properties": {
+          "firstname": {
+            "type": "string",
+            "format": "string"
+          },
+          "lastname": {
+            "type": "string",
+            "format": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "CreateHive": {
+        "type": "object",
+        "required": [
+          "station_uuid"
+        ],
+        "properties": {
+          "station_uuid": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "CreateEvent": {
+        "type": "object",
+        "properties": {
+          "eventType": {
+            "type": "string",
+            "format": "string"
+          },
+          "description": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "CreateStationData": {
+        "type": "object",
+        "required": [
+          "temperature",
+          "sun",
+          "rain",
+          "battery_state",
+          "wind"
+        ],
+        "properties": {
+          "temperature": {
+            "type": "number",
+            "format": "float"
+          },
+          "sun": {
+            "type": "number",
+            "format": "float"
+          },
+          "rain": {
+            "type": "number",
+            "format": "float"
+          },
+          "battery_state": {
+            "type": "number",
+            "format": "float"
+          },
+          "wind": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      },
+      "CreateHiveData": {
+        "type": "object",
+        "required": [
+          "temperature",
+          "sound_level",
+          "weight"
+        ],
+        "properties": {
+          "temperature": {
+            "type": "number",
+            "format": "float"
+          },
+          "sound_level": {
+            "type": "number",
+            "format": "float"
+          },
+          "weight": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      },
+      "ResponseStation": {
+        "type": "object",
+        "required": [
+          "id",
+          "owner",
+          "hive"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "owner": {
+            "$ref": "#/components/schemas/ResponseOwner"
+          },
+          "hives": {
+            "type": "object",
+            "properties": {
+              "count_hives": {
+                "type": "number",
+                "format": "int"
+              },
+              "hives_uuid": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ResponseStations": {
+        "type": "object",
+        "properties": {
+          "count_stations": {
+            "type": "number",
+            "format": "int",
+            "minimum": 0
+          },
+          "elements_per_page": {
+            "type": "number",
+            "format": "int",
+            "minimum": 0
+          },
+          "actual_page": {
+            "type": "number",
+            "format": "int",
+            "minimum": 0
+          },
+          "stations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResponseStation"
+            }
+          }
+        }
+      },
+      "ResponseStationData": {
+        "type": "object",
+        "properties": {
+          "start_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "end_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "resolution": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "datas": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "point_date": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "temperature": {
+                  "type": "number",
+                  "format": "float"
+                },
+                "wind": {
+                  "type": "number",
+                  "format": "float"
+                },
+                "sun": {
+                  "type": "number",
+                  "format": "float"
+                },
+                "rain": {
+                  "type": "number",
+                  "format": "float"
+                },
+                "battery_state": {
+                  "type": "number",
+                  "format": "float"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ResponseHiveData": {
+        "type": "object",
+        "properties": {
+          "start_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "end_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "resolution": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "datas": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "point_date": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "temperature": {
+                  "type": "number",
+                  "format": "float"
+                },
+                "sound_level": {
+                  "type": "number",
+                  "format": "float"
+                },
+                "weight": {
+                  "type": "number",
+                  "format": "float"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ResponseEvent": {
+        "type": "object",
+        "required": [
+          "id",
+          "description"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": {
+            "type": "string",
+            "format": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "creator": {
+            "$ref": "#/components/schemas/ResponseOwner"
+          }
+        }
+      },
+      "ResponseEvents": {
+        "type": "object",
+        "properties": {
+          "count_events": {
+            "type": "number",
+            "format": "int",
+            "minimum": 0
+          },
+          "elements_per_page": {
+            "type": "number",
+            "format": "int",
+            "minimum": 0
+          },
+          "actual_page": {
+            "type": "number",
+            "format": "int",
+            "minimum": 0
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResponseEvent"
+            }
+          }
+        }
+      },
+      "ResponseHive": {
+        "type": "object",
+        "required": [
+          "id",
+          "owner",
+          "station"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "owner": {
+            "$ref": "#/components/schemas/ResponseOwner"
+          },
+          "station": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "last_temperature": {
+            "type": "number",
+            "format": "float"
+          },
+          "last_sound_level": {
+            "type": "number",
+            "format": "float"
+          },
+          "last_weight": {
+            "type": "number",
+            "format": "float"
+          },
+          "last_events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResponseEvent"
+            },
+            "minimum": 0,
+            "maximum": 10
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ResponseHives": {
+        "type": "object",
+        "properties": {
+          "count_hives": {
+            "type": "number",
+            "format": "int",
+            "minimum": 0,
+            "description": "Total hives for the query"
+          },
+          "elements_per_page": {
+            "type": "number",
+            "format": "int",
+            "minimum": 0
+          },
+          "actual_page": {
+            "type": "number",
+            "format": "int",
+            "minimum": 0
+          },
+          "hives": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResponseHive"
+            }
+          }
+        }
+      },
+      "ResponseOwners": {
+        "type": "object",
+        "properties": {
+          "count_owners": {
+            "type": "number",
+            "format": "int",
+            "minimum": 0
+          },
+          "elements_per_page": {
+            "type": "number",
+            "format": "int",
+            "minimum": 0
+          },
+          "actual_page": {
+            "type": "number",
+            "format": "int",
+            "minimum": 0
+          },
+          "owners": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResponseOwnerLong"
+            }
+          }
+        }
+      },
+      "ResponseOwner": {
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "ResponseOwnerLong": {
+        "type": "object",
+        "required": [
+          "id",
+          "firstname",
+          "lastname",
+          "email"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "firstname": {
+            "type": "string",
+            "format": "string"
+          },
+          "lastname": {
+            "type": "string",
+            "format": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      }
+    },
+    "responses": {
+      "Created": {
+        "description": "Created",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Not Authorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Access Forbidden to this resources",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resources not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "TooManyRequests": {
+        "description": "Too Many Requests",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+}
