@@ -49,6 +49,14 @@
               "format": "int32",
               "minimum": 0
             }
+          },
+          {
+            "name": "owner",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         ],
         "responses": {
