@@ -62,7 +62,7 @@ services:
       - mongo
 
   gethives:
-    image: clairedupuich9/gethiveslist:latest
+    image: pfontaine/gethiveslist:latest
     container_name: gethives
     restart: always
     environment:
@@ -77,6 +77,19 @@ services:
   gethive:
     image: clairedupuich9/getahive:latest
     container_name: gethive
+    restart: always
+    environment:
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - MONGO_DB=mayaprotect
+    networks:
+      - mayaprotect
+    depends_on:
+      - mongo
+  
+  registerstation:
+    image: pfontaine/registerstation:latest
+    container_name: registerstation
     restart: always
     environment:
       - MONGO_HOST=mongo
