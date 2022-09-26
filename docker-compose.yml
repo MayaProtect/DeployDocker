@@ -62,7 +62,7 @@ services:
       - mongo
 
   gethives:
-    image: pfontaine/gethiveslist:latest
+    image: 378810107815.dkr.ecr.eu-west-1.amazonaws.com/gethiveslist:latest
     container_name: gethives
     restart: always
     environment:
@@ -75,7 +75,7 @@ services:
       - mongo
   
   gethive:
-    image: clairedupuich9/getahive:latest
+    image: 378810107815.dkr.ecr.eu-west-1.amazonaws.com/gethive:latest
     container_name: gethive
     restart: always
     environment:
@@ -88,7 +88,7 @@ services:
       - mongo
   
   registerstation:
-    image: pfontaine/registerstation:latest
+    image: 378810107815.dkr.ecr.eu-west-1.amazonaws.com/registerstation:latest
     container_name: registerstation
     restart: always
     environment:
@@ -100,18 +100,31 @@ services:
     depends_on:
       - mongo
 
-  # posthiveevent:
-  #   image: dockerman590/posthiveevent:latest
-  #   container_name: posthiveevent
-  #   restart: always
-  #   environment:
-  #     - MONGO_HOST=mongo
-  #     - MONGO_PORT=27017
-  #     - MONGO_DB=mayaprotect
-  #   networks:
-  #     - mayaprotect
-  #   depends_on:
-  #     - mongo
+  registerhive:
+    image: 378810107815.dkr.ecr.eu-west-1.amazonaws.com/registerhive:latest
+    container_name: registerhive
+    restart: always
+    environment:
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - MONGO_DB=mayaprotect
+    networks:
+      - mayaprotect
+    depends_on:
+      - mongo
+
+  posthiveevent:
+    image: dockerman590/posthiveevent:latest
+    container_name: posthiveevent
+    restart: always
+    environment:
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - MONGO_DB=mayaprotect
+    networks:
+      - mayaprotect
+    depends_on:
+      - mongo
 
   apigateway:
     image: nginx:latest
@@ -141,3 +154,14 @@ services:
       - SWAGGER_JSON_URL=/openapi.json
     networks:
       - mayaprotect
+
+  front:
+    image: 378810107815.dkr.ecr.eu-west-1.amazonaws.com/frontmayaprotect:latest
+    container_name: front
+    restart: always
+    ports:
+      - "3002:80"
+    networks:
+      - mayaprotect
+    depends_on:
+      - apigateway

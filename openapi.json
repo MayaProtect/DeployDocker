@@ -471,7 +471,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseHives"
+                  "$ref": "#/components/schemas/ResponseHive"
                 }
               }
             }
