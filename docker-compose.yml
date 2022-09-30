@@ -114,7 +114,7 @@ services:
       - mongo
 
   posthiveevent:
-    image: dockerman590/posthiveevent:latest
+    image: 378810107815.dkr.ecr.eu-west-1.amazonaws.com/posthiveevent:latest
     container_name: posthiveevent
     restart: always
     environment:
