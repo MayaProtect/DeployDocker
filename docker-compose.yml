@@ -44,7 +44,7 @@ services:
       - metricsfaker
 
   metricsfaker:
-    image: pfontaine/metricsfaker:latest
+    image: 378810107815.dkr.ecr.eu-west-1.amazonaws.com/metricsfaker:latest
     container_name: metricsfaker
     restart: always
     environment:
